@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="login_main_layout" type="id"></item>
+    <item name="email_login_form" type="id"></item>
+    <item name="login_email_et" type="id"></item>
+    <item name="login_email" type="id"></item>
+    <item name="login_pass" type="id"></item>
+    <item name="login_pass_et" type="id"></item>
+    <item name="login_button_mail" type="id"></item>
+    <item name="login_button_google" type="id"></item>
+    <item name="login_button_register" type="id"></item>
+    <item name="login_pass_confirmation_et" type="id"></item>
+    <item name="login_pass_confirmation" type="id"></item>
+</resources>
