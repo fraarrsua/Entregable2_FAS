@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.Transition;
 import android.transition.TransitionSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -24,10 +25,17 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import us.master.entregable1.entity.Trip;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -42,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout loginPassParent;
     private AutoCompleteTextView loginEmail;
     private AutoCompleteTextView loginPass;
+    private ValueEventListener valueEventListener;
+    private FirebaseDatabaseService firebaseDatabaseService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
         }
         if (mAuth != null) {
-            mAuth.signInWithEmailAndPassword(loginEmail.getText().toString(),loginPass.getText().toString()).addOnCompleteListener(this,task->{
+            mAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPass.getText().toString()).addOnCompleteListener(this, task -> {
                 if (!task.isSuccessful() || task.getResult().getUser() == null) {
                     showErrorDialogMail();
                 } else if (!task.getResult().getUser().isEmailVerified()) {
@@ -157,7 +167,108 @@ public class LoginActivity extends AppCompatActivity {
     private void checkUserDatabaseLogin(FirebaseUser user) {
         //dummy
         Toast.makeText(this, String.format(getString(R.string.login_completed), user.getEmail()), Toast.LENGTH_SHORT).show();
+        FirebaseDatabaseService firebaseDatabaseService = FirebaseDatabaseService.getServiceInstance();
+        firebaseDatabaseService.saveTrip(Trip.generaViajeFirebase(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                if (databaseError == null) {
+                    Log.i("MITIS", "Trip nuevo añadido");
+                } else {
+                    Log.i("MITIS", "No se ha podido añadir un elemento " + databaseError.getDetails());
+                }
+            }
+        });
+
+        firebaseDatabaseService.getTrip("1").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Toast.makeText(LoginActivity.this, trip.toString(), Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        firebaseDatabaseService.getTripPrecio("2").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Integer precio = dataSnapshot.getValue(Integer.class);
+                    Toast.makeText(LoginActivity.this, precio.toString(), Toast.LENGTH_LONG).show();
+                    Log.i("MITIS", "Precio del TripId2 modificado " + precio.toString());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        ValueEventListener valueEventListener = firebaseDatabaseService.getTrip("2").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Log.i("MITIS", "Elemento modificado individualmente " + trip.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        ChildEventListener childEventListener = firebaseDatabaseService.getTrip().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Log.i("MITIS", "Nuevo elemento añadido " + trip.toString());
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Log.i("MITIS", "Nuevo elemento modificado " + trip.toString());
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Log.i("MITIS", "Nuevo elemento eliminado " + trip.toString());
+                }
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue() != null) {
+                    Trip trip = dataSnapshot.getValue(Trip.class);
+                    Log.i("MITIS", "Nuevo elemento movido " + trip.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         startActivity(new Intent(this, MainActivity.class));
+
     }
 
     private void redirectSignUpActivity() {
@@ -182,6 +293,15 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 })).setNegativeButton(R.string.login_verified_error_cancel, (dialog, which) -> {
         }).show();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (firebaseDatabaseService != null && valueEventListener != null) {
+            firebaseDatabaseService.getTrip("2").removeEventListener(valueEventListener);
+        }
+
     }
 
     private void showErrorDialogMail() {

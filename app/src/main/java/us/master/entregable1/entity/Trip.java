@@ -30,6 +30,9 @@ public class Trip implements Serializable {
                 Objects.equals(url, trip.url);
     }
 
+    public Trip() {
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(lugarSalida, lugarDestino, descripcion, url, fechaSalida, fechaLlegada, precio, id, seleccionado);
@@ -45,8 +48,17 @@ public class Trip implements Serializable {
         this.precio = precio;
         this.url = url;
         this.seleccionado = seleccionado;
+    }
 
-
+    public Trip(String lugarSalida, String lugarDestino, String descripcion, long fechaSalida, long fechaLlegada, int precio, String url, Boolean seleccionado) {
+        this.lugarSalida = lugarSalida;
+        this.lugarDestino = lugarDestino;
+        this.descripcion = descripcion;
+        this.fechaSalida = fechaSalida;
+        this.fechaLlegada = fechaLlegada;
+        this.precio = precio;
+        this.url = url;
+        this.seleccionado = seleccionado;
     }
 
     public int getId() {
@@ -85,8 +97,54 @@ public class Trip implements Serializable {
         this.seleccionado = seleccionado;
     }
 
+    public void setLugarSalida(String lugarSalida) {
+        this.lugarSalida = lugarSalida;
+    }
+
+    public void setLugarDestino(String lugarDestino) {
+        this.lugarDestino = lugarDestino;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setFechaSalida(long fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public void setFechaLlegada(long fechaLlegada) {
+        this.fechaLlegada = fechaLlegada;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
+        return "Trip{" +
+                "lugarSalida='" + lugarSalida + '\'' +
+                ", lugarDestino='" + lugarDestino + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", url='" + url + '\'' +
+                ", precio=" + precio +
+                '}';
+    }
+
+    public String toString_old() {
         return lugarDestino +
                 ", Fecha salida: " + Util.formateaFecha(fechaSalida) +
                 ", Fecha llegada: " + Util.formateaFecha(fechaLlegada) +
@@ -116,5 +174,27 @@ public class Trip implements Serializable {
             trips.add(new Trip(id, lugarSalida, lugarDestino, descripcion, fsal, flle, precio, url, seleccionado));
         }
         return trips;
+    }
+
+    public static Trip generaViajeFirebase() {
+        int min = 75, max = 2050, aleatorio, precio;
+        String lugarSalida, lugarDestino, descripcion, url;
+        Calendar fechaSalida, fechaLlegada, fechaActual = Calendar.getInstance();
+        long fsal, flle;
+        boolean seleccionado = false;
+            aleatorio = ThreadLocalRandom.current().nextInt(min, max);
+            lugarSalida = Constantes.lugarSalida[aleatorio % Constantes.lugarSalida.length];
+            lugarDestino = Constantes.ciudades[aleatorio % Constantes.ciudades.length];
+            url = Constantes.urlImagenes[aleatorio % Constantes.urlImagenes.length];
+            descripcion = "Viaje precioso por " + lugarDestino;
+            fechaSalida = (Calendar) fechaActual.clone();
+            fechaSalida.add(Calendar.DAY_OF_MONTH, aleatorio % 10);
+            fsal = fechaSalida.getTimeInMillis() / 1000;
+            fechaLlegada = (Calendar) fechaSalida.clone();
+            fechaLlegada.add(Calendar.DAY_OF_MONTH, 3 + aleatorio % 2);
+            flle = fechaLlegada.getTimeInMillis() / 1000;
+            precio = aleatorio;
+            Trip trip =new Trip(lugarSalida, lugarDestino, descripcion, fsal, flle, precio, url, seleccionado);
+        return trip;
     }
 }
