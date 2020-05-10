@@ -11,4 +11,15 @@
     <item name="login_button_register" type="id"></item>
     <item name="login_pass_confirmation_et" type="id"></item>
     <item name="login_pass_confirmation" type="id"></item>
+    <item name="trips_main_layout" type="id" />
+    <item name="trip_lugarDestino_form" type="id" />
+    <item name="values_trips_form" type="id" />
+    <item name="trip_lugarDestino_form_et" type="id" />
+    <item name="trip_lugarSalida_form" type="id" />
+    <item name="trip_lugarSalida_form_et" type="id" />
+    <item name="trip_button_form_create" type="id" />
+    <item name="trip_precio_form" type="id" />
+    <item name="trip_precio_form_et" type="id" />
+    <item name="trip_descripcion_form" type="id" />
+    <item name="trip_descripcion_form_et" type="id" />
 </resources>

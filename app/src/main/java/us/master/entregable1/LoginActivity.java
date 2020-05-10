@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-
         progressBar = findViewById(R.id.progressBarLoading);
         loginEmail = findViewById(R.id.login_email_et);
         loginPass = findViewById(R.id.login_pass_et);
@@ -129,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             mAuth = FirebaseAuth.getInstance();
         }
         if (mAuth != null) {
-            mAuth.signInWithEmailAndPassword(loginEmail.getText().toString(),loginPass.getText().toString()).addOnCompleteListener(this,task->{
+            mAuth.signInWithEmailAndPassword(loginEmail.getText().toString(), loginPass.getText().toString()).addOnCompleteListener(this, task -> {
                 if (!task.isSuccessful() || task.getResult().getUser() == null) {
                     showErrorDialogMail();
                 } else if (!task.getResult().getUser().isEmailVerified()) {
@@ -182,6 +181,11 @@ public class LoginActivity extends AppCompatActivity {
                     });
                 })).setNegativeButton(R.string.login_verified_error_cancel, (dialog, which) -> {
         }).show();
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        mAuth.signOut();
     }
 
     private void showErrorDialogMail() {

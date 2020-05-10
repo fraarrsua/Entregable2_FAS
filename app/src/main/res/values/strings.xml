@@ -38,4 +38,11 @@
     <string name="signup_error_pass_not_match">Las contraseñas no coinciden</string>
     <string name="signup_created">Usuario registrado correctamente</string>
     <string name="signup_created_error">Se ha producido un error al registrar</string>
+    <string name="trip_lugarSalida_form_hint">Lugar de salida</string>
+    <string name="trip_lugarDestino_form_hint">Lugar de destino</string>
+    <string name="trips_button_form_alta">Registrar Viaje</string>
+    <string name="trip_precio_form_hint">Precio €</string>
+    <string name="trip_descripcion_form_hint">Descripción</string>
+    <string name="Trip_field_empthy">Complete el campo vacio</string>
+
 </resources>
