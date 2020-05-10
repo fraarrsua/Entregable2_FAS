@@ -43,6 +43,10 @@
     <string name="trips_button_form_alta">Registrar Viaje</string>
     <string name="trip_precio_form_hint">Precio €</string>
     <string name="trip_descripcion_form_hint">Descripción</string>
-    <string name="Trip_field_empthy">Complete el campo vacio</string>
+    <string name="trip_field_empthy">Complete el campo vacio</string>
+    <string name="trip_created">Viaje creado correctamente</string>
+    <string name="trip_date_start_hint">Fecha Salida</string>
+    <string name="trip_date_end_hint">Fecha Llegada</string>
+
 
 </resources>

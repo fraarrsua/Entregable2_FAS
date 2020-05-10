@@ -22,4 +22,6 @@
     <item name="trip_precio_form_et" type="id" />
     <item name="trip_descripcion_form" type="id" />
     <item name="trip_descripcion_form_et" type="id" />
+    <item name="trip_date_end" type="id" />
+    <item name="trip_date_start" type="id" />
 </resources>

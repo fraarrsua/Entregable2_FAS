@@ -27,7 +27,7 @@ public class FirebaseDatabaseService extends AppCompatActivity {
         return service;
     }
 
-    public DatabaseReference getTrip(String triplId) {
+   public DatabaseReference getTrip(String triplId) {
         return mDatabase.getReference("user/" + userId + "/trip/" + triplId).getRef();
     }
 

@@ -82,6 +82,45 @@
                     android:inputType="text"
                     android:singleLine="true" />
             </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@id/trip_date_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/trip_date_start_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/trip_date_start_hint" />
+
+                <ImageView
+                    android:id="@+id/calendarioInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:onClick="fechaRegistro"
+                    app:srcCompat="@drawable/ic_event_24dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@id/trip_date_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/trip_date_end_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="@string/trip_date_end_hint" />
+
+                <ImageView
+                    android:id="@+id/calendarioFin"
+                    android:layout_width="match_parent"
+                    android:layout_height="45sp"
+                    android:onClick="fechaRegistro"
+                    app:srcCompat="@drawable/ic_event_24dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@id/trip_button_form_create"

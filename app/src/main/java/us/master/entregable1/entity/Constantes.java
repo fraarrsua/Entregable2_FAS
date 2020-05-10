@@ -3,7 +3,7 @@ package us.master.entregable1.entity;
 public final class Constantes {
     public final static String[] ciudades = { "Tirana", "Berlín", "Andorra La Vieja", "Ereván", "Viena", "Bakú", "Bruselas", "Minsk", "Sarajevo", "Sofía", "Praga", "Zagreb", "Copenhague", "Bratislava", "Lublijana", "Madrid", "Tallín", "Helsinki", "París", "Tiflis", "Atenas", "Budapest", "Dublín", "Reikiavik", "Roma", "Riga", "Vaduz", "Vilna", "Luxemburgo", "Skopje", "La Valeta", "Chisinau", "Mónaco", "Podgorica", "Oslo", "Amsterdam", "Varsovia", "Lisboa", "Londres", "Bucarest", "Moscú", "Ciudad De San Marino", "Belgrado", "Estocolmo", "Berna", "Kiev", "Ciudad Del Vaticano" };
     public final static String[] lugarSalida = { "Sevilla", "Málaga", "Faro", "Barcelona", "Madrid", "Valencia" };
-    public final static String filtroPreferences = "Filtro", fechaInicio = "FechaInicio", fechaFin = "FechaFin", precioMin = "PrecioMin", precioMax = "PrecioMax";
+    public final static String filtroPreferences = "Filtro", fechaInicio = "FechaInicio", fechaFin = "FechaFin", precioMin = "PrecioMin", precioMax = "PrecioMax", newTripPreference = "FechaTripNuevo";
     public final static String[] urlImagenes = { "https://png.pngtree.com/element_pic/17/09/23/891e71ffa7e5efe9f5440513fa069add.jpg",
             "https://png.pngtree.com/element_pic/17/04/20/e29789b631107bd82df67d3f46112f0e.jpg",
             "https://png.pngtree.com/element_pic/20/16/01/3156adb71123719.jpg",
