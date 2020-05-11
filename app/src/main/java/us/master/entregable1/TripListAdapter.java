@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -15,7 +16,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,16 +76,13 @@ public class TripListAdapter extends RecyclerView.Adapter<TripListAdapter.TripVi
         int precio = trip.getPrecio();
         String fechaSalida = Util.formateaFecha(trip.getFechaSalida());
         String fechaLlegada = Util.formateaFecha(trip.getFechaLlegada());
-        tripViewHolder.descripcion.setText("   Fecha de Salida: " + fechaSalida + "                Fecha de Llegada: " + fechaLlegada + " - " + precio + "€");
+        tripViewHolder.descripcion.setText("\nFecha de Salida: " + fechaSalida + "\nFecha de Llegada: " + fechaLlegada + " - " + precio + "€");
 
-        if (!trip.getUrl().isEmpty()) {
-            Picasso.get()
-                    .load(trip.getUrl())
-                    .placeholder(android.R.drawable.ic_menu_myplaces)
-                    .error(android.R.drawable.ic_menu_myplaces)
-                    .into(tripViewHolder.imagen);
-        }
-
+        Glide.with(tripViewHolder.imagen.getContext())
+                .load(trip.getUrl())
+                .placeholder(android.R.drawable.ic_menu_myplaces)
+                .error(android.R.drawable.ic_menu_myplaces)
+                .into(tripViewHolder.imagen);
         if (trip.isSeleccionado()) {
             tripViewHolder.estrella.setImageResource(android.R.drawable.star_on);
         } else {

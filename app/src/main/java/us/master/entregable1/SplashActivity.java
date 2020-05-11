@@ -16,7 +16,6 @@ public class SplashActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        Util.triplist = Trip.generaViajes(20);
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
