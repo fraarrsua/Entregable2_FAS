@@ -47,6 +47,10 @@
     <string name="trip_created">Viaje creado correctamente</string>
     <string name="trip_date_start_hint">Fecha Salida</string>
     <string name="trip_date_end_hint">Fecha Llegada</string>
-
-
+    <string name="take_picture">Obtener imagen</string>
+    <string name="take_picture_rationale">Necesitamos acceder a tu camara</string>
+    <string name="take_picture_rationale_ok">Permitir</string>
+    <string name="camera_not_granted">No es posible usar esa función sin la camara</string>
+    <string name="storage_not_granted">No se se puede almacenar la foto</string>
+    <string name="trip_without_take_picture">Obtenga la imagen antes de registrar</string>
 </resources>

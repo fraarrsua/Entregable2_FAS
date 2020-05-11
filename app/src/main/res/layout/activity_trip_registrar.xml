@@ -122,15 +122,38 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+            <ImageView
+                android:id="@+id/take_picture_imagen"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="10dp"
+                android:src="@drawable/ic_launcher_background">
+
+            </ImageView>
+
+            <Button
+                android:id="@id/trip_button_form_take_picture"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/take_picture"
+                android:textAllCaps="true"
+                android:textColor="@color/blue_app" />
+
             <Button
                 android:id="@id/trip_button_form_create"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="54dp"
+                android:layout_marginTop="30dp"
                 android:text="@string/trips_button_form_alta"
                 android:textAllCaps="true"
                 android:textColor="@color/blue_app" />
+
+
+                android:src="@drawable/ic_insert_photo_black_24dp" />
         </LinearLayout>
     </ScrollView>
 

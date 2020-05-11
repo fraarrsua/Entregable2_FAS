@@ -1,31 +1,54 @@
 package us.master.entregable1;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import us.master.entregable1.entity.Constantes;
 import us.master.entregable1.entity.Trip;
 import us.master.entregable1.entity.Util;
 
 public class TripRegistrarActivity extends AppCompatActivity {
+
+    private static final int CAMERA_PERMISSION_REQUEST = 0x512;
+    private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST = 0x513;
+    private static final int TAKE_PHOTO_CODE = 0x514;
 
     Calendar calendar = Calendar.getInstance();
     private AutoCompleteTextView lugarSalida, lugarDestino, descripcion;
@@ -34,9 +57,15 @@ public class TripRegistrarActivity extends AppCompatActivity {
     private TextView fechaSalida, fechaLlegada;
     private long fechaSalidaLong = 0, fechaLlegadaLong = 0;
     private TextInputLayout lugarSalidaParent, precioParent, descripcionParent, lugarDestinoParent, fechaSalidaParent, fechaLlegadaParent;
+    private Button take_picture_button;
+    private ImageView take_picture_img;
+
     FirestoreService firestoreService = FirestoreService.getServiceInstance();
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+
+    private Trip trip;
+    private String file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +89,17 @@ public class TripRegistrarActivity extends AppCompatActivity {
         fechaSalidaParent = findViewById(R.id.trip_date_start);
         fechaLlegadaParent = findViewById(R.id.trip_date_end);
 
+        take_picture_button = findViewById(R.id.trip_button_form_take_picture);
+        take_picture_img = findViewById(R.id.take_picture_imagen);
+
+        take_picture_button.setOnClickListener(l -> {
+            takePicture();
+        });
 
         findViewById(R.id.trip_button_form_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Trip trip = new Trip();
+                trip = new Trip();
 
                 if (lugarSalida.getText().length() == 0) {
                     lugarSalidaParent.setErrorEnabled(true);
@@ -84,6 +119,8 @@ public class TripRegistrarActivity extends AppCompatActivity {
                 } else if (lugarSalida.getText().length() == 0) {
                     lugarSalidaParent.setErrorEnabled(true);
                     lugarSalidaParent.setError(getString(R.string.trip_field_empthy));
+                } else if (take_picture_img.getContentDescription() == null) {
+                    Toast.makeText(TripRegistrarActivity.this, getString(R.string.trip_without_take_picture), Toast.LENGTH_LONG).show();
                 } else {
                     trip.setLugarSalida(lugarSalida.getText().toString());
                     trip.setLugarDestino(lugarDestino.getText().toString());
@@ -91,10 +128,9 @@ public class TripRegistrarActivity extends AppCompatActivity {
                     trip.setPrecio(getValorPrecio(precio));
                     trip.setFechaSalida(sharedPreferences.getLong(Constantes.fechaInicio, 0));
                     trip.setFechaLlegada(sharedPreferences.getLong(Constantes.fechaFin, 0));
-                    //TODO
-                    trip.setUrl("");
                     trip.setSeleccionado(false);
 
+                    trip.setUrl(take_picture_img.getContentDescription().toString());
                     firestoreService.saveTrip(trip, new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -146,4 +182,114 @@ public class TripRegistrarActivity extends AppCompatActivity {
         }
     }
 
+    private void takePicture() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                Snackbar.make(take_picture_button, R.string.take_picture_rationale, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.take_picture_rationale_ok, click -> {
+                    ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_REQUEST);
+                });
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_REQUEST);
+            }
+        } else {
+            // Permisos concedios
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    // Explicacion permisos
+                    Snackbar.make(take_picture_button, R.string.take_picture_rationale, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.take_picture_rationale_ok, click -> {
+                        ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST);
+                    });
+                } else {
+                    ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.WRITE_EXTERNAL_STORAGE }, WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST);
+                }
+            } else {
+                // Todos los permisos concedidos
+
+                // Privacidad
+                StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+                StrictMode.setVmPolicy(builder.build());
+
+                String dir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/tripsapp/";
+                File newFile = new File(dir);
+
+                newFile.mkdirs();
+
+                file = dir + Calendar.getInstance().getTimeInMillis() + ".jpg";
+                File newFilePicture = new File(file);
+
+                try {
+                    newFilePicture.createNewFile();
+                } catch (Exception ignore) {
+                }
+
+                Uri outputFileDir = Uri.fromFile(newFilePicture);
+                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileDir);
+                startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == CAMERA_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePicture();
+            } else {
+                Toast.makeText(this, R.string.camera_not_granted, Toast.LENGTH_SHORT).show();
+            }
+        } else if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_REQUEST) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                takePicture();
+            } else {
+                Toast.makeText(this, R.string.storage_not_granted, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
+            File filePicture = new File(file);
+
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference().child("users").child(FirebaseAuth.getInstance().getUid()).child(filePicture.getName());
+            UploadTask uploadTask = storageReference.putFile(Uri.fromFile(filePicture));
+
+            uploadTask.addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                    Log.i("TripsApp", "Firebase Storage completed: " + task.getResult().getTotalByteCount());
+
+                    storageReference.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                String url_image = task.getResult().toString();
+                                Log.i("TripsApp", "URL download image: " + url_image);
+                                Glide.with(TripRegistrarActivity.this)
+                                        .load(task.getResult())
+                                        .centerCrop()
+                                        .into(take_picture_img);
+                                take_picture_img.setVisibility(View.VISIBLE);
+                                take_picture_img.setContentDescription(url_image);
+                            }
+                        }
+                    });
+                }
+            });
+
+            uploadTask.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.e("TripsApp", "FirebaseStorage error: " + e.getMessage());
+                }
+            });
+        }
+    }
 }
+
+
