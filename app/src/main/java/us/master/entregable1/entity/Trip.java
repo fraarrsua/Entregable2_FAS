@@ -65,6 +65,9 @@ public class Trip implements Serializable {
         return fechaSalida;
     }
 
+    public Trip() {
+    }
+
     public long getFechaLlegada() {
         return fechaLlegada;
     }
@@ -75,6 +78,42 @@ public class Trip implements Serializable {
 
     public String getUrl() {
         return url;
+    }
+
+    public void setLugarSalida(String lugarSalida) {
+        this.lugarSalida = lugarSalida;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setLugarDestino(String lugarDestino) {
+        this.lugarDestino = lugarDestino;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setFechaSalida(long fechaSalida) {
+        this.fechaSalida = fechaSalida;
+    }
+
+    public void setFechaLlegada(long fechaLlegada) {
+        this.fechaLlegada = fechaLlegada;
+    }
+
+    public void setPrecio(int precio) {
+        this.precio = precio;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public boolean isSeleccionado() {

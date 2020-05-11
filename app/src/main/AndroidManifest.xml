@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".TripListActivity"></activity>
+        <activity android:name=".TripRegistrarActivity" />
+        <activity android:name=".SignupActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,7 +30,6 @@
         <activity android:name=".TripDetalleActivity" />
         <activity android:name=".TripSeleccionadoActivity" />
         <activity android:name=".LoginActivity" />
-
     </application>
 
 </manifest>
