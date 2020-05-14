@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="us.master.entregable1">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,6 +8,7 @@
         android:name="android.hardware.camera"
         android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TripListActivity"></activity>
+        <activity android:name=".LocationActivity"></activity>
+        <activity android:name=".TripListActivity" />
         <activity android:name=".TripRegistrarActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".SplashActivity">

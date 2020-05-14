@@ -129,7 +129,6 @@ public class TripRegistrarActivity extends AppCompatActivity {
                     trip.setFechaSalida(sharedPreferences.getLong(Constantes.fechaInicio, 0));
                     trip.setFechaLlegada(sharedPreferences.getLong(Constantes.fechaFin, 0));
                     trip.setSeleccionado(false);
-
                     trip.setUrl(take_picture_img.getContentDescription().toString());
                     firestoreService.saveTrip(trip, new OnCompleteListener<DocumentReference>() {
                         @Override
@@ -192,8 +191,7 @@ public class TripRegistrarActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.CAMERA }, CAMERA_PERMISSION_REQUEST);
             }
         } else {
-            // Permisos concedios
-
+            // Permisos concedidos
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     // Explicacion permisos

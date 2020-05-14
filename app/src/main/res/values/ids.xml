@@ -26,5 +26,8 @@
     <item name="trip_date_start" type="id" />
     <item name="trip_button_form_take_picture" type="id" />
     <item name="take_picture_imagen" type="id" />
+    <item name="location" type="id" />
+    <item name="textview_ciudad" type="id" />
+    <item name="textview_temp" type="id" />
 
 </resources>
