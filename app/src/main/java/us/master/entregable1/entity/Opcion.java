@@ -34,7 +34,7 @@ public class Opcion {
     public static List<Opcion> crearOpciones() {
         List<Opcion> opciones = new ArrayList<>();
         opciones.add(new Opcion("Viajes disponibles", R.drawable.trip_disponible, TripListActivity.class));
-        opciones.add(new Opcion("Viajes seleccionados", R.drawable.trip_seleccionado, TripSeleccionadoActivity.class));
+        opciones.add(new Opcion("Viajes seleccionados", R.drawable.trip_seleccionado, TripListActivity.class));
         opciones.add(new Opcion("Registrar viajes", R.drawable.trip_registrar, TripRegistrarActivity.class));
         return opciones;
     }

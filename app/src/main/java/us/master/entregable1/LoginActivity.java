@@ -156,7 +156,8 @@ public class LoginActivity extends AppCompatActivity {
     private void checkUserDatabaseLogin(FirebaseUser user) {
         //dummy
         Toast.makeText(this, String.format(getString(R.string.login_completed), user.getEmail()), Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, LocationActivity.class));
+        finish();
     }
 
     private void redirectSignUpActivity() {

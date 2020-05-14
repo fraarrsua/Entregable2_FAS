@@ -53,4 +53,10 @@
     <string name="camera_not_granted">No es posible usar esa función sin la camara</string>
     <string name="storage_not_granted">No se se puede almacenar la foto</string>
     <string name="trip_without_take_picture">Obtenga la imagen antes de registrar</string>
+    <string name="open_weather_map_api_key">1b1631c182bb7065871e1aa457f3c3cb</string>
+    <string name="location_needed">Necesitamos tu localizacion para esta funcionalidad</string>
+    <string name="location_rationale_ok">Permitir</string>
+    <string name="location_cancel">Este permiso es importante para la aplicación</string>
+    <string name="open_weather_map_api_unit">metric</string>
+    <string name="open_weather_map_api_language">es</string>
 </resources>
