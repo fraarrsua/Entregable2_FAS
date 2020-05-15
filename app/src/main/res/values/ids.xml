@@ -29,5 +29,5 @@
     <item name="location" type="id" />
     <item name="textview_ciudad" type="id" />
     <item name="textview_temp" type="id" />
-
+    <item name="coordenadas" type="id"/>
 </resources>

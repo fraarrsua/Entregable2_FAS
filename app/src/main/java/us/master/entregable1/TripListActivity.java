@@ -50,7 +50,7 @@ public class TripListActivity extends AppCompatActivity {
         ciudad = findViewById(R.id.textview_ciudad);
         temperatura = findViewById(R.id.textview_temp);
         fieldsAPIWeather();
-        tripListAdapter = new TripListAdapter();
+        tripListAdapter = new TripListAdapter(this);
 
         tripListAdapter.setDataChangedListener(() -> {
             if (tripListAdapter.getItemCount() > 0) {
