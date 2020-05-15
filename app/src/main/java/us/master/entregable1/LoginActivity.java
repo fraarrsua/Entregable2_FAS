@@ -154,9 +154,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkUserDatabaseLogin(FirebaseUser user) {
-        //dummy
+        //FirestoreService.userId = user.getUid();
         Toast.makeText(this, String.format(getString(R.string.login_completed), user.getEmail()), Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, LocationActivity.class));
+        //startActivity(new Intent(this, MapActivity.class));
+
         finish();
     }
 

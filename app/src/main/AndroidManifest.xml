@@ -20,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LocationActivity"></activity>
+        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".LocationActivity" />
         <activity android:name=".TripListActivity" />
         <activity android:name=".TripRegistrarActivity" />
         <activity android:name=".SignupActivity" />
@@ -38,6 +39,10 @@
         <activity android:name=".TripDetalleActivity" />
         <activity android:name=".TripSeleccionadoActivity" />
         <activity android:name=".LoginActivity" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/com.google.android.geo.API_KEY" />
     </application>
 
 </manifest>

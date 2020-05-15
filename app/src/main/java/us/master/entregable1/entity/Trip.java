@@ -2,40 +2,15 @@ package us.master.entregable1.entity;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Trip implements Serializable {
-    private String lugarSalida, lugarDestino, descripcion, url;
+    private String lugarSalida, lugarDestino, descripcion, url, id;
     private long fechaSalida, fechaLlegada;
-    private int precio, id;
+    private int precio;
     private boolean seleccionado;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Trip trip = (Trip) o;
-        return fechaSalida == trip.fechaSalida &&
-                fechaLlegada == trip.fechaLlegada &&
-                precio == trip.precio &&
-                id == trip.id &&
-                seleccionado == trip.seleccionado &&
-                Objects.equals(lugarSalida, trip.lugarSalida) &&
-                Objects.equals(lugarDestino, trip.lugarDestino) &&
-                Objects.equals(descripcion, trip.descripcion) &&
-                Objects.equals(url, trip.url);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(lugarSalida, lugarDestino, descripcion, url, fechaSalida, fechaLlegada, precio, id, seleccionado);
-    }
-
-    public Trip(int id, String lugarSalida, String lugarDestino, String descripcion, long fechaSalida, long fechaLlegada, int precio, String url, Boolean seleccionado) {
+    public Trip(String id, String lugarSalida, String lugarDestino, String descripcion, long fechaSalida, long fechaLlegada, int precio, String url, Boolean seleccionado) {
         this.id = id;
         this.lugarSalida = lugarSalida;
         this.lugarDestino = lugarDestino;
@@ -45,11 +20,9 @@ public class Trip implements Serializable {
         this.precio = precio;
         this.url = url;
         this.seleccionado = seleccionado;
-
-
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -112,7 +85,43 @@ public class Trip implements Serializable {
         this.precio = precio;
     }
 
-    public void setId(int id) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trip trip = (Trip) o;
+        return fechaSalida == trip.fechaSalida &&
+                fechaLlegada == trip.fechaLlegada &&
+                precio == trip.precio &&
+                seleccionado == trip.seleccionado &&
+                Objects.equals(lugarSalida, trip.lugarSalida) &&
+                Objects.equals(lugarDestino, trip.lugarDestino) &&
+                Objects.equals(descripcion, trip.descripcion) &&
+                Objects.equals(url, trip.url) &&
+                Objects.equals(id, trip.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lugarSalida, lugarDestino, descripcion, url, id, fechaSalida, fechaLlegada, precio, seleccionado);
+    }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "lugarSalida='" + lugarSalida + '\'' +
+                ", lugarDestino='" + lugarDestino + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", url='" + url + '\'' +
+                ", id='" + id + '\'' +
+                ", fechaSalida=" + fechaSalida +
+                ", fechaLlegada=" + fechaLlegada +
+                ", precio=" + precio +
+                ", seleccionado=" + seleccionado +
+                '}';
+    }
+
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -124,15 +133,7 @@ public class Trip implements Serializable {
         this.seleccionado = seleccionado;
     }
 
-    @Override
-    public String toString() {
-        return lugarDestino +
-                ", Fecha salida: " + Util.formateaFecha(fechaSalida) +
-                ", Fecha llegada: " + Util.formateaFecha(fechaLlegada) +
-                ", Precio: " + precio;
-    }
-
-    public static List<Trip> generaViajes(int numViajes) {
+    /*public static List<Trip> generaViajes(int numViajes) {
         List<Trip> trips = new ArrayList<>();
         int min = 75, max = 2050, aleatorio, precio;
         String lugarSalida, lugarDestino, descripcion, url;
@@ -155,5 +156,5 @@ public class Trip implements Serializable {
             trips.add(new Trip(id, lugarSalida, lugarDestino, descripcion, fsal, flle, precio, url, seleccionado));
         }
         return trips;
-    }
+    }*/
 }

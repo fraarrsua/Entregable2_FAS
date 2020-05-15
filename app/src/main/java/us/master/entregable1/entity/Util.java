@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class Util {
+
+    public static double latitud = 0d;
+    public static double longitud = 0d;
+
     public static String formateaFecha(Calendar calendar) {
         int yy = calendar.get(Calendar.YEAR);
         int mm = calendar.get(Calendar.MONTH);
